@@ -42,6 +42,9 @@ header{position:sticky;top:0;z-index:20;background:rgba(244,245,241,.95);
   padding-top:env(safe-area-inset-top)}
 .topbar{display:flex;align-items:center;gap:10px;padding:14px 0 10px}
 .topbar h1{margin:0;font-size:1.35rem;font-weight:800;letter-spacing:.03em;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fsSeg{display:inline-flex;background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:3px;gap:2px}
+.fsSeg button{padding:.25rem .8rem;border-radius:999px;font-size:.8rem;font-weight:700;color:var(--sub)}
+.fsSeg button.on{background:var(--sage);color:#fff}
 .pill-btn{background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;color:var(--sub);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 
 /* ---------- 搜尋 ---------- */
@@ -159,6 +162,21 @@ dialog .row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 dialog .row button{flex:1;min-width:120px}
 dialog .seg{margin:12px 0}
 dialog .field{margin:0}
+.bigbtn.danger{background:var(--red)}
+.bigbtn.danger:hover{background:#8f2f28}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:.95rem;font-weight:700}
+.setrow .link{font-size:.85rem;font-weight:800;padding:.45rem .9rem;border-radius:10px;border:1px solid var(--line2);background:#fff}
+.setrow .link.red{color:var(--red);border-color:#e7c3be}
+.setrow .link.green{color:var(--sage-text);border-color:var(--sage-line)}
+.switch{width:3rem;height:1.7rem;border-radius:999px;background:#cfd3cd;position:relative;flex-shrink:0;transition:.2s}
+.switch::after{content:'';position:absolute;left:.2rem;top:.2rem;width:1.3rem;height:1.3rem;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.switch.on{background:var(--sage)}
+.switch.on::after{left:1.5rem}
+.setinfo{font-size:.75rem;color:var(--muted);margin-top:14px;line-height:1.8}
+.listhead{display:flex;align-items:center;justify-content:space-between;margin:6px 4px 4px}
+.listhead span{font-size:.9rem;font-weight:800;color:var(--sub)}
+.clearbtn{display:inline-flex;align-items:center;gap:5px;font-size:.8rem;font-weight:800;color:var(--red);padding:.4rem .85rem;border-radius:10px;border:1px solid #e7c3be;background:#fff}
+.clearbtn:hover{background:var(--red-soft)}
 </style>
 </head>
 <body>
@@ -172,6 +190,7 @@ dialog .field{margin:0}
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></symbol>
   <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M14.5 7.5l3 3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6M14 11v6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12"/><path d="M9 7V4h6v3"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
   <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
 </svg>
@@ -180,8 +199,7 @@ dialog .field{margin:0}
   <div class="wrap">
     <div class="topbar">
       <h1>物品碼查詢</h1>
-      <button class="pill-btn" id="fontBtn" aria-label="切換字體大小">字體 特大</button>
-      <button class="pill-btn" id="setBtn" aria-label="設定"><svg class="i"><use href="#i-gear"/></svg></button>
+      <button class="pill-btn" id="setBtn"><svg class="i"><use href="#i-gear"/></svg>設定</button>
     </div>
     <div id="searchArea">
       <div class="searchrow">
@@ -219,7 +237,7 @@ dialog .field{margin:0}
         <input id="fName" autocomplete="off">
       </div>
       <div class="field">
-        <span class="lbl">是哪一種？</span>
+        <span class="lbl">HIS 功能</span>
         <div class="seg" id="fSource">
           <button data-v="消耗性材料耗用" class="on">消耗性材料耗用</button>
           <button data-v="採購請購">採購請購</button>
@@ -266,7 +284,7 @@ dialog .field{margin:0}
 
 <script>
 const CONFIG = Object.assign({ API_URL: '' }, window.APP_CONFIG || {});
-const VERSION = 'v2.0';
+const VERSION = 'v3.0';
 const SRC_CONSUME = '消耗性材料耗用', SRC_PURCHASE = '採購請購';
 
 /* ---------- 小工具 ---------- */
@@ -392,13 +410,20 @@ function scoreItem(it, tokens, qn){
   const ratio = (exact + sound) / total;
   return ratio >= 0.6 ? Math.round(ratio * 300) : 0;
 }
+// 目前分類裡的物品（常用、最近複製依照存放的順序）
+function poolItems(){
+  if (filter === 'fav' || filter === 'recent') {
+    const byCode = new Map(ITEMS.map(it => [it.code, it]));
+    return store.get(filter === 'fav' ? 'favs' : 'recent', []).map(c => byCode.get(c)).filter(Boolean);
+  }
+  return ITEMS.filter(it => filter === 'all' || it.kind === filter);
+}
 function search(q){
   const qn = norm(q);
   if (!qn) return null;
   const tokens = q.split(/\s+/).map(norm).filter(Boolean);
   const favs = new Set(store.get('favs', []));
-  let list = ITEMS
-    .filter(it => filter === 'all' || it.kind === filter)
+  let list = poolItems()
     .map(it => ({ it, base: scoreItem(it, tokens, qn) }))
     .filter(x => x.base > 0);
   if (list.some(x => x.base >= 400)) list = list.filter(x => x.base >= 270);
@@ -447,7 +472,7 @@ function cardHTML(it, q){
   </article>`;
 }
 function renderChips(){
-  const list = [['all','全部'],['consume',SRC_CONSUME],['purchase',SRC_PURCHASE]];
+  const list = [['all','全部'],['consume',SRC_CONSUME],['purchase',SRC_PURCHASE],['fav','常用'],['recent','最近複製']];
   $('#chips').innerHTML = list.map(([k, l]) =>
     `<button class="chip ${filter === k ? 'on' : ''}" data-filter="${k}">${l}</button>`).join('');
 }
@@ -458,30 +483,24 @@ function render(){
   const res = search(q);
   if (res === null) { renderHome(); return; }
   $('#status').textContent = res.length ? `找到 ${res.length} 項` : '';
-  if (!res.length) {
-    $('#results').innerHTML = `<div class="empty"><div class="big">${icon('search')}</div>
-      <p style="font-weight:700;color:var(--text)">找不到「${esc(q)}」</p>
-      <p style="font-size:.9rem">試試看少打幾個字，或換個說法。<br>找不到的物品，可以按下方「新增物品」加進來。</p></div>`;
-    return;
-  }
+  if (!res.length) { $('#results').innerHTML = '<div class="empty">找不到符合的物品</div>'; return; }
   $('#results').innerHTML = res.slice(0, MAX).map(it => cardHTML(it, q)).join('') +
     (res.length > MAX ? `<div class="more">還有 ${res.length - MAX} 項，請多打幾個字縮小範圍</div>` : '');
 }
+// 沒有輸入文字時：一般分類保持空白；常用、最近複製列出清單
 function renderHome(){
-  const favs = store.get('favs', []), recent = store.get('recent', []);
-  const byCode = new Map(ITEMS.map(it => [it.code, it]));
-  const pass = it => it && (filter === 'all' || it.kind === filter);
-  const favItems = favs.map(c => byCode.get(c)).filter(pass);
-  const recItems = recent.map(c => byCode.get(c)).filter(it => pass(it) && !favs.includes(it.code)).slice(0, 8);
-  $('#status').textContent = lastSource ? `資料更新於 ${lastSource}` : (ITEMS.length ? '' : '資料載入中…');
-  let html = '';
-  if (favItems.length) html += '<div class="section-title">常用物品</div>' + favItems.map(it => cardHTML(it, '')).join('');
-  if (recItems.length) html += '<div class="section-title">最近複製過</div>' + recItems.map(it => cardHTML(it, '')).join('');
-  if (!html) html = `<div class="empty"><div class="big">${icon('search')}</div>
-    <p style="font-size:1.05rem;font-weight:700;color:var(--text)">在上面輸入品名或代碼</p>
-    <p>也可以按右邊的麥克風用說的。<br>按「加入常用」可以把常用物品留在這一頁。</p>
-    <div class="examples"><button data-ex="手套">手套</button><button data-ex="口罩">口罩</button><button data-ex="藥袋">藥袋</button><button data-ex="橡皮筋">橡皮筋</button></div></div>`;
-  $('#results').innerHTML = html;
+  $('#status').textContent = ITEMS.length ? '' : '資料載入中…';
+  if (filter !== 'fav' && filter !== 'recent') { $('#results').innerHTML = ''; return; }
+  const list = poolItems();
+  const title = filter === 'fav' ? '常用' : '最近複製';
+  if (!list.length) {
+    $('#results').innerHTML = `<div class="empty">${filter === 'fav' ? '還沒有常用物品' : '還沒有複製紀錄'}</div>`;
+    return;
+  }
+  $('#results').innerHTML =
+    `<div class="listhead"><span>${title}（${list.length} 項）</span>` +
+    (filter === 'recent' ? `<button class="clearbtn" id="clearRecent">${icon('trash')}清空紀錄</button>` : '') +
+    `</div>` + list.map(it => cardHTML(it, '')).join('');
 }
 
 /* ---------- 複製 ---------- */
@@ -514,11 +533,16 @@ $('#clearBtn').addEventListener('click', () => { $('#q').value = ''; render(); $
 document.addEventListener('click', async e => {
   const b = e.target.closest('button');
   if (!b || b.closest('dialog')) return;
-  if (b.dataset.copy) {
+  if (b.id === 'clearRecent') {
+    dialog('要清除最近複製的品項嗎？', '', [['清除', () => { store.set('recent', []); render(); toast('已清除最近複製', '', '#5f6a64'); }, 'danger'], ['返回', null]]);
+  } else if (b.dataset.copy) {
     const ok = await copyText(b.dataset.copy);
     if (ok) {
       toast('已複製物品碼', b.dataset.copy);
-      const r = store.get('recent', []).filter(c => c !== b.dataset.copy); r.unshift(b.dataset.copy); store.set('recent', r.slice(0, 20));
+      const r = store.get('recent', []).filter(c => c !== b.dataset.copy); r.unshift(b.dataset.copy); store.set('recent', r.slice(0, 30));
+      if (store.get('autoClear', true) && $('#q').value.trim()) {     // 複製後自動清空搜尋框
+        setTimeout(() => { $('#q').value = ''; render(); }, 700);
+      } else if (filter === 'recent' && !$('#q').value.trim()) render();
     } else toast('複製失敗，請手動選取', b.dataset.copy, '#a83a32');
   } else if (b.dataset.copyDept) {
     const ok = await copyText(b.dataset.copyDept);
@@ -530,7 +554,7 @@ document.addEventListener('click', async e => {
     f = on ? f.concat(code) : f.filter(c => c !== code);
     store.set('favs', f);
     toast(on ? '已加入常用' : '已從常用移除', code, on ? '#7a5b12' : '#5f6a64');
-    if (!$('#q').value.trim()) renderHome();       // 首頁：移除後馬上消失
+    if (filter === 'fav') render();                 // 在「常用」裡移除後馬上消失
     else $$(`[data-fav="${CSS.escape(code)}"]`).forEach(x => x.outerHTML = favHTML(code, on));
   } else if (b.dataset.editDept) {
     openDeptEditor(b.dataset.editDept);
@@ -539,7 +563,7 @@ document.addEventListener('click', async e => {
   } else if (b.dataset.ex) {
     $('#q').value = b.dataset.ex; render();
   } else if (b.dataset.page) {
-    if (b.dataset.page === 'inv') { dialog('尚未開放此功能', '<p>盤點功能還在準備中，開放後會通知大家。</p>'); return; }
+    if (b.dataset.page === 'inv') { dialog('尚未開放此功能', ''); return; }
     showPage(b.dataset.page);
   }
 });
@@ -553,8 +577,10 @@ function showPage(p){
 
 /* ---------- 字體大小（標準 / 特大） ---------- */
 let fs = store.get('fs2', 0);
-function applyFs(){ document.documentElement.className = fs ? 'fs-xl' : ''; $('#fontBtn').textContent = fs ? '字體 標準' : '字體 特大'; }
-$('#fontBtn').addEventListener('click', () => { fs = fs ? 0 : 1; store.set('fs2', fs); applyFs(); });
+function applyFs(){
+  document.documentElement.className = fs ? 'fs-xl' : '';
+  $$('.fsSeg button').forEach(b => b.classList.toggle('on', +b.dataset.fs === fs));
+}
 applyFs();
 
 /* ---------- 語音 ---------- */
@@ -589,24 +615,46 @@ $('#stopListen').addEventListener('click', () => { if (rec) rec.stop(); });
 /* ---------- 對話框 ---------- */
 function dialog(title, html, buttons, onOpen){
   const d = $('#dlg');
-  d.innerHTML = `<h2>${title}</h2>${html}<div class="row">${(buttons || [['好', null]]).map(([l], i) =>
-    `<button class="bigbtn ${i === (buttons || []).length - 1 && i > 0 ? 'gray' : ''}" data-i="${i}">${l}</button>`).join('')}</div>`;
+  buttons = buttons || [['返回', null]];
+  d.innerHTML = `<h2>${title}</h2>${html}<div class="row">${buttons.map(([l, , cls], i) =>
+    `<button class="bigbtn ${cls || (i === buttons.length - 1 && i > 0 ? 'gray' : '')}" data-i="${i}">${l}</button>`).join('')}</div>`;
   d.querySelectorAll('.row [data-i]').forEach(b => b.onclick = async () => {
-    const fn = (buttons || [['好', null]])[+b.dataset.i][1];
+    const fn = buttons[+b.dataset.i][1];
     if (fn) { const keep = await fn(); if (keep === false) return; }
     d.close();
   });
+  if (d.open) d.close();
   d.showModal();
   if (onOpen) onOpen(d);
 }
 
 /* ---------- 設定 ---------- */
-$('#setBtn').addEventListener('click', () => {
+function openSettings(){
+  const auto = store.get('autoClear', true);
   dialog('設定',
-    `<p>資料來源：HIS 請購系統匯出</p><p>上次更新：${esc(lastSource || '—')}</p>
-     <p style="font-size:.75rem;color:var(--muted)">版本 ${VERSION}</p>`,
-    [['重新載入資料', () => { loadData(); toast('已重新載入資料'); }], ['關閉', null]]);
-});
+    `<div class="setrow"><span>字體大小</span>
+       <div class="fsSeg" role="group" aria-label="字體大小"><button data-fs="0">標準</button><button data-fs="1">特大</button></div></div>
+     <div class="setrow"><span>複製後自動清空搜尋框</span>
+       <button class="switch ${auto ? 'on' : ''}" id="swAuto" role="switch" aria-checked="${auto}" aria-label="複製後自動清空搜尋框"></button></div>
+     <div class="setrow"><span>清除常用物品</span><button class="link red" id="clrFav">清除</button></div>
+     <div class="setrow" style="border-bottom:0"><span>重新載入資料</span><button class="link green" id="reload">載入</button></div>
+     <div class="setinfo">資料來源：HIS 請購系統匯出<br>上次更新：${esc(lastSource || '—')}　·　版本 ${VERSION}</div>`,
+    [['返回', null, 'gray']],
+    d => {
+      applyFs();
+      d.querySelectorAll('.fsSeg button').forEach(b => b.onclick = () => { fs = +b.dataset.fs; store.set('fs2', fs); applyFs(); });
+      d.querySelector('#swAuto').onclick = e => {
+        const on = !store.get('autoClear', true); store.set('autoClear', on);
+        e.currentTarget.classList.toggle('on', on); e.currentTarget.setAttribute('aria-checked', on);
+      };
+      d.querySelector('#clrFav').onclick = () => {
+        if (!store.get('favs', []).length) { toast('目前沒有常用物品', '', '#5f6a64'); return; }
+        dialog('要清除所有常用物品嗎？', '', [['清除', () => { store.set('favs', []); render(); toast('已清除常用物品', '', '#5f6a64'); }, 'danger'], ['返回', null]]);
+      };
+      d.querySelector('#reload').onclick = async () => { d.close(); await loadData(); toast('已重新載入資料'); };
+    });
+}
+$('#setBtn').addEventListener('click', openSettings);
 
 /* ---------- 寫回試算表 ---------- */
 async function post(body){

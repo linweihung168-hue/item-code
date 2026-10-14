@@ -116,7 +116,6 @@ nav.tabbar .wrap{display:flex}
 nav.tabbar button{flex:1;padding:9px 0 11px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.78rem;font-weight:700;color:var(--muted)}
 nav.tabbar button .ic{font-size:1.45rem;height:1.6rem;display:flex;align-items:center;justify-content:center;position:relative}
 nav.tabbar button.on{color:var(--sage)}
-nav.tabbar button.add .ic{background:var(--sage);color:#fff;width:2.1rem;height:2.1rem;border-radius:50%;font-size:1.25rem}
 nav.tabbar button.locked{color:#b4bab6}
 nav.tabbar .lock{position:absolute;right:-.55rem;bottom:-.1rem;font-size:.75rem;background:#fff;border-radius:50%}
 
@@ -151,7 +150,11 @@ nav.tabbar .lock{position:absolute;right:-.55rem;bottom:-.1rem;font-size:.75rem;
 #listen{position:fixed;inset:0;background:rgba(31,39,35,.5);z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
 #listen.show{display:flex}
 #listen .box{background:#fff;border-radius:26px;padding:30px;text-align:center;width:min(420px,100%)}
-#listen .mic{font-size:3rem;color:var(--red);border-radius:50%;width:104px;height:104px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:var(--red-soft);animation:pulse 1.2s infinite}
+#listen .mic{font-size:3rem;color:var(--muted);border-radius:50%;width:104px;height:104px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:var(--gray-soft);transition:.2s}
+#listen.ready .mic{color:var(--red);background:var(--red-soft);animation:pulse 1.2s infinite}
+#listen .say{font-size:1.15rem;font-weight:800;color:var(--muted)}
+#listen.ready .say{color:var(--red)}
+body.desktop #micBtn{display:none}
 #listen .heard{font-size:1.25rem;font-weight:800;min-height:2em;margin:8px 0 18px;color:var(--sage-text)}
 
 dialog{border:0;border-radius:24px;padding:24px;width:min(520px,92vw);box-shadow:0 20px 60px rgba(31,39,35,.3);color:var(--text)}
@@ -269,7 +272,7 @@ dialog .field{margin:0}
 <div id="listen" role="dialog" aria-label="語音輸入中">
   <div class="box">
     <div class="mic"><svg class="i"><use href="#i-mic"/></svg></div>
-    <div style="font-size:1.15rem;font-weight:800">請說出物品名稱</div>
+    <div class="say" id="say">準備中…</div>
     <div class="heard" id="heard"></div>
     <button class="bigbtn gray" id="stopListen">停止</button>
   </div>
@@ -284,7 +287,7 @@ dialog .field{margin:0}
 
 <script>
 const CONFIG = Object.assign({ API_URL: '' }, window.APP_CONFIG || {});
-const VERSION = 'v3.0';
+const VERSION = 'v3.1';
 const SRC_CONSUME = '消耗性材料耗用', SRC_PURCHASE = '採購請購';
 
 /* ---------- 小工具 ---------- */
@@ -585,15 +588,26 @@ applyFs();
 
 /* ---------- 語音 ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+// 用滑鼠的電腦：隱藏麥克風，搜尋框只寫「搜尋品名」
+const IS_DESKTOP = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+if (IS_DESKTOP) {
+  document.body.classList.add('desktop');
+  $('#q').placeholder = '搜尋品名'; $('#q').setAttribute('aria-label', '搜尋品名');
+}
 let rec = null;
-function stopUI(){ rec = null; $('#listen').classList.remove('show'); $('#micBtn').classList.remove('listening'); }
+function stopUI(){ rec = null; $('#listen').classList.remove('show', 'ready'); $('#micBtn').classList.remove('listening'); }
 $('#micBtn').addEventListener('click', () => {
   if (!SR) { dialog('這台裝置不支援語音搜尋', '<p>可以改用鍵盤上的麥克風：點一下搜尋框，再按鍵盤上的麥克風說話。</p>'); return; }
   if (rec) { rec.stop(); return; }
   rec = new SR();
   rec.lang = 'zh-TW'; rec.interimResults = true; rec.maxAlternatives = 1; rec.continuous = false;
   $('#heard').textContent = '';
+  $('#say').textContent = '準備中…'; $('#listen').classList.remove('ready');
   $('#listen').classList.add('show'); $('#micBtn').classList.add('listening');
+  let readyTimer;
+  const ready = () => { clearTimeout(readyTimer); $('#listen').classList.add('ready'); $('#say').textContent = '請說話'; };
+  rec.onaudiostart = ready;                         // 麥克風真正開始收音
+  rec.onstart = () => { readyTimer = setTimeout(ready, 600); };   // 部分瀏覽器沒有 audiostart
   rec.onresult = ev => {
     let txt = '';
     for (const r of ev.results) txt += r[0].transcript;

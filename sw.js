@@ -1,5 +1,5 @@
 // 物品碼查詢 — 離線快取（改版時把版本號 +1）
-const CACHE = 'item-code-v3';
+const CACHE = 'item-code-v3-1';
 const SHELL = ['./', 'index.html', 'config.js', 'manifest.json', 'items.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {

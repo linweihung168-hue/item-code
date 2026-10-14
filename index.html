@@ -113,11 +113,13 @@ button.dept:hover{border-color:#d4bf9c}
 nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);
   border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 nav.tabbar .wrap{display:flex}
-nav.tabbar button{flex:1;padding:9px 0 11px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.78rem;font-weight:700;color:var(--muted)}
-nav.tabbar button .ic{font-size:1.45rem;height:1.6rem;display:flex;align-items:center;justify-content:center;position:relative}
-nav.tabbar button.on{color:var(--sage)}
+nav.tabbar button{flex:1;padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.78rem;font-weight:700;color:var(--sage-text)}
+nav.tabbar button .ic{width:2.3rem;height:2.3rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.15rem;
+  background:var(--sage-soft);color:var(--sage-text);transition:background .15s,color .15s}
+nav.tabbar button.on .ic{background:var(--sage);color:#fff}
+nav.tabbar button.on{font-weight:800}
 nav.tabbar button.locked{color:#b4bab6}
-nav.tabbar .lock{position:absolute;right:-.55rem;bottom:-.1rem;font-size:.75rem;background:#fff;border-radius:50%}
+nav.tabbar button.locked .ic{background:#ecedea;color:#b4bab6}
 
 .page{display:none}.page.on{display:block}
 
@@ -263,7 +265,7 @@ dialog .field{margin:0}
   <div class="wrap">
     <button data-page="search" class="on"><span class="ic"><svg class="i"><use href="#i-search"/></svg></span>查詢</button>
     <button data-page="add" class="add"><span class="ic"><svg class="i"><use href="#i-plus"/></svg></span>新增物品</button>
-    <button data-page="inv" class="locked"><span class="ic"><svg class="i"><use href="#i-list"/></svg><svg class="i lock"><use href="#i-lock"/></svg></span>盤點</button>
+    <button data-page="inv" class="locked"><span class="ic"><svg class="i"><use href="#i-list"/></svg></span>盤點</button>
   </div>
 </nav>
 
@@ -287,7 +289,7 @@ dialog .field{margin:0}
 
 <script>
 const CONFIG = Object.assign({ API_URL: '' }, window.APP_CONFIG || {});
-const VERSION = 'v3.2';
+const VERSION = 'v3.3';
 const SRC_CONSUME = '消耗性材料耗用', SRC_PURCHASE = '採購請購';
 
 /* ---------- 小工具 ---------- */

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>物品碼查詢</title>
-<meta name="theme-color" content="#f2f2f7">
+<meta name="theme-color" content="#f4f5f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="物品碼">
 <link rel="manifest" href="manifest.json">
@@ -12,174 +12,185 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
 /* =========================================================
-   物品碼查詢 v1.0
+   物品碼查詢 v2.0
    ========================================================= */
 :root{
-  --bg:#f2f2f7; --card:#ffffff; --text:#1c1c1e; --sub:#5e5e66; --line:#e3e3e8;
-  --blue:#0a66d9; --blue-soft:#e6f0ff;
-  --green:#1d7a3c; --green-soft:#e2f6e8;
-  --purple:#6a3fb3; --purple-soft:#efe7ff;
-  --orange:#9a4d00; --orange-soft:#fff0dc;
-  --red:#c62828; --red-soft:#ffe8e8;
-  --radius:22px;
-  --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.05);
+  --bg:#f4f5f1; --card:#ffffff; --text:#1f2723; --sub:#5f6a64; --muted:#8a948e; --line:#e3e5df; --line2:#dadcd5;
+  --sage:#4e7a66; --sage-dark:#3f6655; --sage-soft:#e4eee8; --sage-text:#2f5a47; --sage-line:#c9d7cf;
+  --sand:#f4ede1; --sand-line:#e5d6bd; --sand-text:#6b4e24;
+  --gray-soft:#ecece7; --gray-text:#4a4d47;
+  --gold-soft:#f7efd9; --gold-line:#e8d59e; --gold-text:#7a5b12;
+  --red:#a83a32; --red-soft:#f8e6e3;
+  --radius:18px;
+  --shadow:0 1px 2px rgba(31,39,35,.05),0 3px 10px rgba(31,39,35,.04);
 }
 html{font-size:20px;-webkit-text-size-adjust:100%}
-html.fs-l{font-size:23px}
-html.fs-xl{font-size:26px}
-@media (max-width:600px){
-  html{font-size:17px} html.fs-l{font-size:19px} html.fs-xl{font-size:21px}
-  .topbar h1{font-size:1.3rem}
-  .code{font-size:1.5rem;min-width:0}
-  .copybtn{flex:1 1 100%}
-}
+html.fs-xl{font-size:23px}
+@media (max-width:600px){ html{font-size:17px} html.fs-xl{font-size:19px} }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",sans-serif;
-  line-height:1.5;padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+  line-height:1.5;padding-bottom:calc(100px + env(safe-area-inset-bottom))}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-button:focus-visible,input:focus-visible{outline:3px solid #7fb2ff;outline-offset:2px}
+button:focus-visible,input:focus-visible{outline:3px solid #9cc2b0;outline-offset:2px}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.13em;flex-shrink:0}
 .wrap{max-width:860px;margin:0 auto;padding:0 16px}
 
 /* ---------- 頂部 ---------- */
-header{position:sticky;top:0;z-index:20;background:rgba(242,242,247,.94);
-  backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);
+header{position:sticky;top:0;z-index:20;background:rgba(244,245,241,.95);
+  backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);
   padding-top:env(safe-area-inset-top)}
 .topbar{display:flex;align-items:center;gap:10px;padding:14px 0 10px}
-.topbar h1{margin:0;font-size:1.5rem;font-weight:800;letter-spacing:.02em;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pill-btn{background:var(--card);border-radius:999px;padding:.35rem .9rem;font-size:.85rem;font-weight:600;
-  box-shadow:var(--shadow);color:var(--sub);white-space:nowrap}
+.topbar h1{margin:0;font-size:1.35rem;font-weight:800;letter-spacing:.03em;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill-btn{background:var(--card);border:1px solid var(--line2);border-radius:999px;padding:.3rem .9rem;font-size:.8rem;font-weight:700;color:var(--sub);white-space:nowrap;display:inline-flex;align-items:center;gap:4px}
 
 /* ---------- 搜尋 ---------- */
 .searchrow{display:flex;gap:10px;padding-bottom:12px}
-.searchbox{flex:1;min-width:0;position:relative;display:flex;align-items:center;background:var(--card);
-  border-radius:var(--radius);box-shadow:var(--shadow);border:2px solid transparent;min-height:72px}
-.searchbox:focus-within{border-color:var(--blue)}
-.searchbox .ico{font-size:1.3rem;padding-left:18px;opacity:.55}
-#q{flex:1;border:0;outline:0;background:none;font:inherit;font-size:1.3rem;padding:14px 12px;min-width:0;color:var(--text)}
-#q::placeholder{color:#9a9aa2}
+.searchbox{flex:1;min-width:0;display:flex;align-items:center;background:var(--card);
+  border-radius:var(--radius);border:2px solid var(--line2);min-height:68px}
+.searchbox:focus-within{border-color:var(--sage)}
+.searchbox .si{font-size:1.25rem;margin-left:18px;color:var(--muted)}
+#q{flex:1;border:0;outline:0;background:none;font:inherit;font-size:1.25rem;padding:14px 12px;min-width:0;color:var(--text)}
+#q::placeholder{color:#a1a9a4}
 #q::-webkit-search-cancel-button{display:none;-webkit-appearance:none}
-#clearBtn{font-size:1.1rem;width:52px;height:52px;margin-right:8px;border-radius:50%;background:#e9e9ee;color:#666;display:none}
-#clearBtn.show{display:block}
-#micBtn{width:72px;min-height:72px;border-radius:var(--radius);background:var(--blue);color:#fff;font-size:1.6rem;box-shadow:var(--shadow);flex-shrink:0}
+#clearBtn{width:46px;height:46px;margin-right:10px;border-radius:50%;background:var(--gray-soft);color:var(--sub);font-size:1.05rem;display:none;align-items:center;justify-content:center}
+#clearBtn.show{display:flex}
+#micBtn{width:68px;min-height:68px;border-radius:var(--radius);background:var(--sage);color:#fff;font-size:1.6rem;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+#micBtn:hover{background:var(--sage-dark)}
 #micBtn.listening{background:var(--red);animation:pulse 1.2s infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(198,40,40,.45)}70%{box-shadow:0 0 0 16px rgba(198,40,40,0)}100%{box-shadow:0 0 0 0 rgba(198,40,40,0)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(168,58,50,.4)}70%{box-shadow:0 0 0 14px rgba(168,58,50,0)}100%{box-shadow:0 0 0 0 rgba(168,58,50,0)}}
 
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex-shrink:0;padding:.45rem 1rem;border-radius:999px;background:var(--card);font-size:.9rem;font-weight:600;color:var(--sub);box-shadow:var(--shadow)}
-.chip.on{background:var(--text);color:#fff}
-.chip .n{opacity:.6;font-weight:500;margin-left:4px}
+.chip{flex-shrink:0;padding:.4rem 1.05rem;border-radius:999px;background:var(--card);font-size:.85rem;font-weight:700;color:var(--sub);border:1px solid var(--line2)}
+.chip.on{background:var(--text);color:#fff;border-color:var(--text)}
 
 /* ---------- 內容 ---------- */
-main{padding-top:4px}
-.status{color:var(--sub);font-size:.85rem;margin:4px 4px 12px}
-.section-title{font-size:1.05rem;font-weight:800;margin:18px 4px 10px;color:var(--sub)}
-.banner{background:var(--orange-soft);color:var(--orange);border-radius:16px;padding:12px 16px;font-size:.9rem;margin-bottom:12px}
+main{padding-top:2px}
+.status{color:var(--sub);font-size:.8rem;margin:2px 4px 12px}
+.section-title{font-size:.95rem;font-weight:800;margin:16px 4px 10px;color:var(--sub)}
+.banner{background:var(--sand);color:var(--sand-text);border:1px solid var(--sand-line);border-radius:14px;padding:10px 16px;font-size:.85rem;margin-bottom:12px}
 
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:14px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;align-items:center}
-.tag{font-size:.8rem;font-weight:700;padding:.2rem .75rem;border-radius:999px}
-.tag.consume{background:var(--green-soft);color:var(--green)}
-.tag.supply{background:var(--blue-soft);color:var(--blue)}
-.tag.drug{background:var(--purple-soft);color:var(--purple)}
-.tag.local{background:#eee;color:#666}
-.dept{display:inline-flex;align-items:center;gap:6px;font-size:.95rem;font-weight:700;padding:.35rem .85rem;
-  border-radius:12px;background:var(--orange-soft);color:var(--orange);border:2px solid #ffd9a8}
-.dept b{font-size:1.15rem;letter-spacing:.04em}
-.name{font-size:1.15rem;font-weight:700;line-height:1.45;margin:2px 0 6px;word-break:break-word}
-.name mark{background:#fff3a0;color:inherit;border-radius:4px;padding:0 2px}
-.alias{font-size:.85rem;color:var(--sub);margin-bottom:8px}
-.coderow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
-.code{font-family:"SF Mono",Consolas,"Roboto Mono",monospace;font-size:1.65rem;font-weight:800;letter-spacing:.06em;
-  flex:1;min-width:150px;word-break:break-all}
-.code small{display:block;font-family:inherit;font-size:.75rem;letter-spacing:0;font-weight:600;color:var(--sub)}
-.copybtn{background:var(--blue);color:#fff;font-size:1.1rem;font-weight:800;padding:.85rem 1.4rem;border-radius:18px;
-  min-height:64px;box-shadow:0 3px 10px rgba(10,102,217,.28);white-space:nowrap}
+.card{background:var(--card);border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow);padding:16px 20px 18px;margin-bottom:14px}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.tag{font-size:.75rem;font-weight:700;padding:.2rem .8rem;border-radius:999px;white-space:nowrap}
+.tag.consume{background:var(--sage-soft);color:var(--sage-text)}
+.tag.purchase{background:var(--gray-soft);color:var(--gray-text)}
+.tag.local{background:var(--sand);color:var(--sand-text);margin-left:6px}
+.favbtn{display:inline-flex;align-items:center;gap:5px;font-size:.78rem;font-weight:700;padding:.35rem .85rem;border-radius:999px;
+  border:1px solid var(--line2);background:#fff;color:var(--sub);white-space:nowrap}
+.favbtn:hover{border-color:var(--gold-line)}
+.favbtn.on{background:var(--gold-soft);border-color:var(--gold-line);color:var(--gold-text)}
+.favbtn.on svg.i{fill:currentColor}
+.coderow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.code{flex:1;min-width:150px}
+.code small{display:block;font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.05em}
+.code b{display:block;font-family:"SF Mono",Consolas,"Roboto Mono",monospace;font-size:1.6rem;font-weight:800;letter-spacing:.06em;word-break:break-all;line-height:1.25}
+.copybtn{background:var(--sage);color:#fff;font-size:1.02rem;font-weight:800;padding:.8rem 1.5rem;border-radius:14px;min-height:58px;white-space:nowrap}
+.copybtn:hover{background:var(--sage-dark)}
 .copybtn:active{transform:scale(.97)}
-.favbtn{font-size:1.5rem;width:56px;height:56px;border-radius:50%;background:#f4f4f7;color:#c2c2c8;flex-shrink:0}
-.favbtn.on{color:#f5a300;background:#fff6dc}
-.more{text-align:center;color:var(--sub);padding:12px;font-size:.9rem}
+.name{font-size:1.02rem;font-weight:600;line-height:1.5;margin:8px 0 0;word-break:break-word}
+.name mark{background:#f6e7b0;color:inherit;border-radius:4px;padding:0 2px}
+.deptrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
+.dept{display:inline-flex;align-items:baseline;gap:6px;font-size:.88rem;font-weight:700;padding:.4rem .9rem;border-radius:12px;
+  background:var(--sand);color:var(--sand-text);border:1px solid var(--sand-line)}
+.dept b{font-size:1.05rem;letter-spacing:.04em;font-weight:800}
+button.dept:hover{border-color:#d4bf9c}
+.dept.none{background:#fafaf8;color:var(--muted);border-style:dashed;border-color:var(--line2)}
+.editbtn{display:inline-flex;align-items:center;gap:5px;font-size:.82rem;font-weight:700;color:var(--sage-text);padding:.42rem .8rem;border-radius:12px;border:1px solid var(--sage-line);background:#fff}
+.editbtn:hover{background:var(--sage-soft)}
+.more{text-align:center;color:var(--sub);padding:12px;font-size:.85rem}
 
-.empty{text-align:center;padding:30px 16px;color:var(--sub)}
-.empty .big{font-size:3rem}
+.empty{text-align:center;padding:36px 16px;color:var(--sub)}
+.empty .big{font-size:2.6rem;color:var(--sage-line)}
 .examples{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
-.examples button{background:var(--card);padding:.6rem 1.2rem;border-radius:14px;font-weight:700;box-shadow:var(--shadow);color:var(--blue)}
+.examples button{background:var(--card);padding:.55rem 1.2rem;border-radius:12px;font-weight:700;border:1px solid var(--line2);color:var(--sage-text)}
 
 /* ---------- 底部分頁 ---------- */
-nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.96);
-  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom)}
+nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
 nav.tabbar .wrap{display:flex}
-nav.tabbar button{flex:1;padding:10px 0 12px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.85rem;font-weight:700;color:#8a8a92}
-nav.tabbar button .i{font-size:1.6rem;line-height:1.2}
-nav.tabbar button.on{color:var(--blue)}
-nav.tabbar button.add .i{background:var(--blue);color:#fff;width:2.2rem;height:2.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem}
+nav.tabbar button{flex:1;padding:9px 0 11px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:.78rem;font-weight:700;color:var(--muted)}
+nav.tabbar button .ic{font-size:1.45rem;height:1.6rem;display:flex;align-items:center;justify-content:center;position:relative}
+nav.tabbar button.on{color:var(--sage)}
+nav.tabbar button.add .ic{background:var(--sage);color:#fff;width:2.1rem;height:2.1rem;border-radius:50%;font-size:1.25rem}
+nav.tabbar button.locked{color:#b4bab6}
+nav.tabbar .lock{position:absolute;right:-.55rem;bottom:-.1rem;font-size:.75rem;background:#fff;border-radius:50%}
 
 .page{display:none}.page.on{display:block}
 
 /* ---------- 表單 ---------- */
 .form .card{padding:22px}
 .field{margin-bottom:20px}
-.field label{display:block;font-weight:800;margin-bottom:8px;font-size:1rem}
-.field .hint{font-size:.8rem;color:var(--sub);font-weight:500;margin-left:6px}
-.field input{width:100%;font:inherit;font-size:1.15rem;padding:16px 18px;border-radius:16px;border:2px solid var(--line);background:#fafafc;color:var(--text)}
-.field input:focus{border-color:var(--blue);outline:0;background:#fff}
+.field label,.field .lbl{display:block;font-weight:800;margin-bottom:8px;font-size:.95rem}
+.field .hint{font-size:.75rem;color:var(--muted);font-weight:600;margin-left:6px}
+.field input{width:100%;font:inherit;font-size:1.1rem;padding:15px 18px;border-radius:14px;border:2px solid var(--line2);background:#fbfbf9;color:var(--text)}
+.field input:focus{border-color:var(--sage);outline:0;background:#fff}
 .seg{display:flex;gap:10px;flex-wrap:wrap}
-.seg button{flex:1;min-width:140px;padding:16px 10px;border-radius:16px;border:2px solid var(--line);background:#fafafc;font-weight:800}
-.seg button.on{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
-.bigbtn{width:100%;background:var(--blue);color:#fff;font-size:1.2rem;font-weight:800;padding:18px;border-radius:18px;min-height:68px}
-.bigbtn.gray{background:#e5e5ea;color:var(--text)}
-.bigbtn:disabled{opacity:.5}
-.msg{border-radius:14px;padding:12px 16px;margin-bottom:16px;font-weight:600;display:none}
+.seg button{flex:1;min-width:140px;padding:15px 10px;border-radius:14px;border:2px solid var(--line2);background:#fbfbf9;font-weight:800}
+.seg button.on{border-color:var(--sage);background:var(--sage-soft);color:var(--sage-text)}
+.bigbtn{width:100%;background:var(--sage);color:#fff;font-size:1.1rem;font-weight:800;padding:16px;border-radius:16px;min-height:62px}
+.bigbtn:hover{background:var(--sage-dark)}
+.bigbtn.gray{background:var(--gray-soft);color:var(--text)}
+.bigbtn:disabled{opacity:.55}
+.msg{border-radius:12px;padding:12px 16px;margin-bottom:16px;font-weight:700;display:none}
 .msg.show{display:block}
 .msg.err{background:var(--red-soft);color:var(--red)}
-.msg.ok{background:var(--green-soft);color:var(--green)}
-
-.inv-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.inv-row:last-child{border-bottom:0}
-.inv-row .c{font-family:"SF Mono",Consolas,monospace;font-weight:800;min-width:6.5em}
-.inv-row .n{flex:1;font-size:.95rem}
-.smallbtn{background:var(--blue-soft);color:var(--blue);font-weight:800;padding:.5rem .9rem;border-radius:12px;font-size:.9rem;white-space:nowrap}
+.msg.ok{background:var(--sage-soft);color:var(--sage-text)}
 
 /* ---------- 提示 ---------- */
-#toast{position:fixed;left:50%;bottom:calc(120px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
-  background:#1f8a43;color:#fff;font-size:1.2rem;font-weight:800;padding:18px 28px;border-radius:20px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:.25s;z-index:100;text-align:center;max-width:90vw}
+#toast{position:fixed;left:50%;bottom:calc(110px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(16px);
+  background:var(--sage-dark);color:#fff;font-size:1.1rem;font-weight:800;padding:16px 28px;border-radius:18px;
+  box-shadow:0 10px 30px rgba(31,39,35,.25);opacity:0;pointer-events:none;transition:.22s;z-index:100;text-align:center;max-width:90vw}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-#toast small{display:block;font-size:.9rem;font-weight:600;opacity:.9;margin-top:2px;font-family:"SF Mono",Consolas,monospace;letter-spacing:.05em}
+#toast small{display:block;font-size:.9rem;font-weight:700;opacity:.9;margin-top:2px;font-family:"SF Mono",Consolas,monospace;letter-spacing:.05em}
 
-#listen{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
+#listen{position:fixed;inset:0;background:rgba(31,39,35,.5);z-index:90;display:none;align-items:center;justify-content:center;padding:20px}
 #listen.show{display:flex}
-#listen .box{background:#fff;border-radius:28px;padding:30px;text-align:center;width:min(420px,100%)}
-#listen .mic{font-size:3.5rem;animation:pulse 1.2s infinite;border-radius:50%;width:110px;height:110px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;background:var(--red-soft)}
-#listen .heard{font-size:1.3rem;font-weight:800;min-height:2em;margin:8px 0 18px;color:var(--blue)}
+#listen .box{background:#fff;border-radius:26px;padding:30px;text-align:center;width:min(420px,100%)}
+#listen .mic{font-size:3rem;color:var(--red);border-radius:50%;width:104px;height:104px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;background:var(--red-soft);animation:pulse 1.2s infinite}
+#listen .heard{font-size:1.25rem;font-weight:800;min-height:2em;margin:8px 0 18px;color:var(--sage-text)}
 
-dialog{border:0;border-radius:26px;padding:24px;width:min(520px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.3)}
-dialog::backdrop{background:rgba(0,0,0,.4)}
-dialog h2{margin:0 0 12px}
+dialog{border:0;border-radius:24px;padding:24px;width:min(520px,92vw);box-shadow:0 20px 60px rgba(31,39,35,.3);color:var(--text)}
+dialog::backdrop{background:rgba(31,39,35,.4)}
+dialog h2{margin:0 0 10px;font-size:1.2rem}
 dialog p{color:var(--sub);margin:6px 0}
-dialog .row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-dialog .row button{flex:1}
+dialog .row{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+dialog .row button{flex:1;min-width:120px}
+dialog .seg{margin:12px 0}
+dialog .field{margin:0}
 </style>
 </head>
 <body>
 
+<!-- 線條圖示 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2.5" width="6" height="11.5" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0"/><path d="M12 17.5V21"/><path d="M8.5 21h7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9z"/><path d="M9 11h6M9 15h4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M14.5 7.5l3 3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+</svg>
+
 <header>
   <div class="wrap">
     <div class="topbar">
-      <h1>📦 物品碼查詢</h1>
-      <button class="pill-btn" id="fontBtn" aria-label="調整字體大小">字體 大</button>
-      <button class="pill-btn" id="setBtn" aria-label="設定">⚙️</button>
+      <h1>物品碼查詢</h1>
+      <button class="pill-btn" id="fontBtn" aria-label="切換字體大小">字體 特大</button>
+      <button class="pill-btn" id="setBtn" aria-label="設定"><svg class="i"><use href="#i-gear"/></svg></button>
     </div>
     <div id="searchArea">
       <div class="searchrow">
         <div class="searchbox">
-          <span class="ico">🔍</span>
-          <input id="q" type="search" placeholder="輸入品名或代碼" autocomplete="off" enterkeyhint="search">
-          <button id="clearBtn" aria-label="清除">✕</button>
+          <svg class="i si"><use href="#i-search"/></svg>
+          <input id="q" type="search" placeholder="輸入品名或語音搜尋" autocomplete="off" enterkeyhint="search" aria-label="輸入品名或語音搜尋">
+          <button id="clearBtn" aria-label="清除"><svg class="i"><use href="#i-x"/></svg></button>
         </div>
-        <button id="micBtn" aria-label="語音搜尋">🎤</button>
+        <button id="micBtn" aria-label="語音搜尋"><svg class="i"><use href="#i-mic"/></svg></button>
       </div>
       <div class="chips" id="chips"></div>
     </div>
@@ -194,65 +205,53 @@ dialog .row button{flex:1}
     <div id="results"></div>
   </section>
 
-  <!-- 盤點頁（預留） -->
-  <section class="page" id="page-inv">
-    <h2 style="margin:14px 4px 6px">📋 盤點</h2>
-    <div class="banner">🚧 盤點功能準備中。確認盤點方式後就會開放，目前先列出預計要盤點的物品。</div>
-    <div id="invList"></div>
-  </section>
-
   <!-- 新增頁 -->
   <section class="page form" id="page-add">
-    <h2 style="margin:14px 4px 10px">＋ 新增物品</h2>
+    <h2 style="margin:14px 4px 10px">新增物品</h2>
     <div class="msg" id="addMsg"></div>
     <div class="card">
       <div class="field">
         <label for="fCode">物品碼 <span class="hint">必填</span></label>
-        <input id="fCode" autocomplete="off" autocapitalize="characters" placeholder="例如：TZKOTE">
+        <input id="fCode" autocomplete="off" autocapitalize="characters">
       </div>
       <div class="field">
         <label for="fName">品名 <span class="hint">必填</span></label>
-        <input id="fName" autocomplete="off" placeholder="例如：耳掛式手術用口罩">
+        <input id="fName" autocomplete="off">
       </div>
       <div class="field">
-        <label>是哪一種？</label>
+        <span class="lbl">是哪一種？</span>
         <div class="seg" id="fSource">
-          <button data-v="消耗性物品" class="on">消耗性物品<br><small>要填發貨部門</small></button>
-          <button data-v="採購請購">採購請購<br><small>耗材、藥品</small></button>
+          <button data-v="消耗性材料耗用" class="on">消耗性材料耗用</button>
+          <button data-v="採購請購">採購請購</button>
         </div>
       </div>
       <div class="field" id="deptField">
-        <label for="fDept">發貨部門代號</label>
-        <input id="fDept" inputmode="numeric" autocomplete="off" placeholder="例如：8322">
-        <div style="margin-top:10px" class="seg" id="deptQuick"></div>
+        <label for="fDept">發貨部門</label>
+        <div class="seg deptQuick" style="margin-bottom:10px">
+          <button type="button" data-dq="8322 醫材庫">8322 醫材庫</button>
+          <button type="button" data-dq="8326 重物倉">8326 重物倉</button>
+        </div>
+        <input id="fDept" autocomplete="off" aria-label="其他發貨部門代號">
       </div>
-      <div class="field">
-        <label for="fAlias">平常怎麼叫它？ <span class="hint">選填，方便搜尋</span></label>
-        <input id="fAlias" autocomplete="off" placeholder="例如：口罩、小手套">
-      </div>
-      <div class="field" id="keyField" style="display:none">
-        <label for="fKey">新增密碼 <span class="hint">第一次需要輸入</span></label>
-        <input id="fKey" type="password" autocomplete="off" inputmode="numeric">
-      </div>
-      <button class="bigbtn" id="saveBtn">💾 儲存</button>
+      <button class="bigbtn" id="saveBtn">儲存</button>
     </div>
   </section>
 </main>
 
 <nav class="tabbar">
   <div class="wrap">
-    <button data-page="search" class="on"><span class="i">🔍</span>查詢</button>
-    <button data-page="add" class="add"><span class="i">＋</span>新增物品</button>
-    <button data-page="inv"><span class="i">📋</span>盤點</button>
+    <button data-page="search" class="on"><span class="ic"><svg class="i"><use href="#i-search"/></svg></span>查詢</button>
+    <button data-page="add" class="add"><span class="ic"><svg class="i"><use href="#i-plus"/></svg></span>新增物品</button>
+    <button data-page="inv" class="locked"><span class="ic"><svg class="i"><use href="#i-list"/></svg><svg class="i lock"><use href="#i-lock"/></svg></span>盤點</button>
   </div>
 </nav>
 
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <div id="listen" role="dialog" aria-label="語音輸入中">
   <div class="box">
-    <div class="mic">🎤</div>
-    <div style="font-size:1.2rem;font-weight:800">請說出物品名稱</div>
+    <div class="mic"><svg class="i"><use href="#i-mic"/></svg></div>
+    <div style="font-size:1.15rem;font-weight:800">請說出物品名稱</div>
     <div class="heard" id="heard"></div>
     <button class="bigbtn gray" id="stopListen">停止</button>
   </div>
@@ -260,18 +259,15 @@ dialog .row button{flex:1}
 
 <dialog id="dlg"></dialog>
 
+<!-- 試算表網址放在 config.js -->
+<script src="config.js"></script>
 <!-- 中文同音字比對（語音辨識打錯字時用），載入失敗也不影響基本功能 -->
 <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.29.5/dist/index.js" defer></script>
 
 <script>
-/* =========================================================
-   設定：把 Google Apps Script 的網址貼在下面引號裡
-   沒填的話，會先使用 items.json 的資料（只能查詢，新增只存在這台裝置）
-   ========================================================= */
-const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbw8r5bUdjRZaC6KJtoJizkDvCk24y617qXgbIpE5salJqhwVeSr_IyNreTsbBFu337nlg/exec',
-};
-const VERSION = 'v1.0';
+const CONFIG = Object.assign({ API_URL: '' }, window.APP_CONFIG || {});
+const VERSION = 'v2.0';
+const SRC_CONSUME = '消耗性材料耗用', SRC_PURCHASE = '採購請購';
 
 /* ---------- 小工具 ---------- */
 const $ = s => document.querySelector(s);
@@ -282,7 +278,7 @@ const store = {
   del(k){ try{ localStorage.removeItem(k); }catch(e){} },
 };
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-// 全形轉半形、小寫、去掉空白與標點
+const icon = id => `<svg class="i"><use href="#i-${id}"/></svg>`;
 function norm(s){
   return String(s ?? '')
     .replace(/[！-～]/g, c => String.fromCharCode(c.charCodeAt(0) - 0xFEE0))
@@ -292,45 +288,39 @@ function norm(s){
 }
 
 /* ---------- 資料 ---------- */
-let ITEMS = [];          // 整理後的物品
+let ITEMS = [];
 let filter = 'all';
 let lastSource = '';
 
-function kindOf(it){
-  if (it.source === '消耗性物品') return 'consume';
-  return it.code.startsWith('*') ? 'drug' : 'supply';
+function parseDept(s){
+  s = String(s || '').split(/[；;]/)[0].trim();      // 只取第一個發貨部門
+  if (!s) return null;
+  const m = s.match(/^(\S+)\s*(.*)$/);
+  return { code:m[1], name:m[2] || '' };
 }
-const KIND = {
-  consume:{label:'消耗性物品', cls:'consume'},
-  supply:{label:'採購耗材', cls:'supply'},
-  drug:{label:'藥品', cls:'drug'},
-};
-
 function toItem(r){
   const g = k => String(r[k] ?? '').trim();
-  const depts = g('發貨部門').split(/[；;]/).map(s => s.trim()).filter(Boolean).map(s => {
-    const m = s.match(/^(\S+)\s*(.*)$/); return { code:m[1], name:m[2] || '' };
-  });
+  const src = g('來源');
   const it = {
-    code:g('物品碼'), name:g('品名'), source:g('來源') || '採購請購', depts,
-    alias:g('別名'), old:g('舊品名'), inv:g('要盤點'), invCat:g('盤點分類'),
-    safety:g('安全存量'), date:g('最近申請日'), local:!!r._local,
+    code:g('物品碼'), name:g('品名'),
+    kind: (src === '消耗性物品' || src === SRC_CONSUME) ? 'consume' : 'purchase',
+    dept: parseDept(g('發貨部門')),
+    alias:g('別名'), old:g('舊品名'), local:!!r._local,
   };
-  it.kind = kindOf(it);
   it.codeN = norm(it.code);
-  it.hay = norm([it.code, it.name, it.alias, it.old, depts.map(d => d.code + d.name).join(' ')].join(' '));
+  it.hay = norm([it.code, it.name, it.alias, it.old, it.dept ? it.dept.code + it.dept.name : ''].join(' '));
   it.py = null;
   return it;
 }
-
 function setData(rows){
   const local = store.get('local_items', []);
   const seen = new Set(rows.map(r => String(r['物品碼']).trim()));
   const all = rows.concat(local.filter(r => !seen.has(String(r['物品碼']).trim())).map(r => ({...r, _local:true})));
   ITEMS = all.filter(r => String(r['物品碼'] ?? '').trim()).map(toItem);
   buildPinyin();
-  renderChips(); render(); renderInv();
+  renderChips(); render();
 }
+function cacheRows(){ return (store.get('items_cache', null) || { items:[] }).items; }
 
 async function loadData(){
   const cache = store.get('items_cache', null);
@@ -345,9 +335,9 @@ async function loadData(){
     lastSource = when;
     setData(data.items);
     $('#banner').innerHTML = CONFIG.API_URL ? '' :
-      '<div class="banner">ℹ️ 尚未連接 Google 試算表，目前使用內建資料。新增的物品只會存在這台裝置。</div>';
+      '<div class="banner">尚未連接 Google 試算表，目前使用內建資料。新增和編輯只會存在這台電腦。</div>';
   } catch (e) {
-    $('#banner').innerHTML = '<div class="banner">📴 暫時連不上資料庫，先使用上次的資料' + (lastSource ? '（' + esc(lastSource) + '）' : '') + '。</div>';
+    $('#banner').innerHTML = '<div class="banner">暫時連不上資料庫，先使用上次的資料' + (lastSource ? '（' + esc(lastSource) + '）' : '') + '。</div>';
     if (!cache) setData([]);
   }
 }
@@ -357,7 +347,7 @@ const pyCache = new Map();
 function charPy(ch){
   if (!window.pinyinPro) return null;
   if (!pyCache.has(ch)) {
-    try { pyCache.set(ch, pinyinPro.pinyin(ch, { toneType:'none', type:'array', multiple:true }).map(s => s.replace(/v/g,'ü'))); }
+    try { pyCache.set(ch, pinyinPro.pinyin(ch, { toneType:'none', type:'array', multiple:true })); }
     catch(e){ pyCache.set(ch, []); }
   }
   return pyCache.get(ch);
@@ -376,11 +366,8 @@ window.addEventListener('load', () => {
 });
 
 /* ---------- 搜尋 ---------- */
-function units(qn){
-  // 英數連在一起算一個單位，中文每個字一個單位
-  return qn.match(/[a-z0-9]+|[^\sa-z0-9]/g) || [];
-}
-function scoreItem(it, q, tokens, qn){
+const units = qn => qn.match(/[a-z0-9]+|[^\sa-z0-9]/g) || [];
+function scoreItem(it, tokens, qn){
   if (it.codeN === qn) return 1000;
   if (it.codeN.startsWith(qn) && qn.length >= 2) return 800 + qn.length;
   if (tokens.every(t => it.hay.includes(t))) {
@@ -389,7 +376,6 @@ function scoreItem(it, q, tokens, qn){
     if (norm(it.alias).includes(qn)) s += 50;
     return s - Math.min(it.name.length, 80) / 10;
   }
-  // 模糊比對：輸入的字有六成以上出現在品名裡就算
   const us = units(qn);
   let total = 0, exact = 0, sound = 0;
   for (const u of us) {
@@ -402,112 +388,100 @@ function scoreItem(it, q, tokens, qn){
       if (p && p.some(x => it.py.has(x))) sound += w * 0.7;
     }
   }
-  if (total < 2) return 0;
-  if (exact / total < 0.5) return 0;            // 至少一半的字要完全一樣
+  if (total < 2 || exact / total < 0.5) return 0;
   const ratio = (exact + sound) / total;
-  return ratio >= 0.6 ? Math.round(ratio * 300) : 0;   // 模糊結果最高 300 分
+  return ratio >= 0.6 ? Math.round(ratio * 300) : 0;
 }
-
 function search(q){
   const qn = norm(q);
   if (!qn) return null;
   const tokens = q.split(/\s+/).map(norm).filter(Boolean);
   const favs = new Set(store.get('favs', []));
-  const order = { consume:0, supply:1, drug:2 };
   let list = ITEMS
     .filter(it => filter === 'all' || it.kind === filter)
-    .map(it => ({ it, base: scoreItem(it, q, tokens, qn) }))
+    .map(it => ({ it, base: scoreItem(it, tokens, qn) }))
     .filter(x => x.base > 0);
-  // 已經有完全符合的結果時，只留下非常接近的模糊結果，避免畫面太雜
   if (list.some(x => x.base >= 400)) list = list.filter(x => x.base >= 270);
   return list
     .map(x => ({ it: x.it, s: x.base + (favs.has(x.it.code) ? 30 : 0) }))
-    .sort((a, b) => b.s - a.s || order[a.it.kind] - order[b.it.kind] || a.it.code.localeCompare(b.it.code))
+    .sort((a, b) => b.s - a.s || (a.it.kind === 'consume' ? -1 : 1) - (b.it.kind === 'consume' ? -1 : 1)
+      || (a.it.code.startsWith('*') ? 1 : 0) - (b.it.code.startsWith('*') ? 1 : 0) || a.it.code.localeCompare(b.it.code))
     .map(x => x.it);
 }
 
 /* ---------- 畫面 ---------- */
 function highlight(text, q){
   let html = esc(text);
-  const words = q.split(/\s+/).filter(w => w.length >= 1).sort((a,b) => b.length - a.length);
+  const words = q.split(/\s+/).filter(Boolean).sort((a,b) => b.length - a.length);
   for (const w of words) {
     const re = new RegExp('(' + esc(w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
     html = html.replace(re, '<mark>$1</mark>');
   }
   return html;
 }
-
+function favHTML(code, on){
+  return `<button class="favbtn ${on ? 'on' : ''}" data-fav="${esc(code)}">${icon('star')}${on ? '已加入常用' : '加入常用'}</button>`;
+}
 function cardHTML(it, q){
-  const favs = new Set(store.get('favs', []));
-  const k = KIND[it.kind];
-  const deptHTML = it.kind === 'consume'
-    ? (it.depts.length
-        ? it.depts.map(d => `<button class="dept" data-copy-dept="${esc(d.code)}" title="點一下複製發貨部門代號">發貨部門 <b>${esc(d.code)}</b> ${esc(d.name)} 📋</button>`).join('')
-        : '<span class="dept" style="opacity:.7">發貨部門：未填</span>')
-    : '';
+  const fav = store.get('favs', []).includes(it.code);
+  const label = it.kind === 'consume' ? SRC_CONSUME : SRC_PURCHASE;
+  let deptHTML = '';
+  if (it.kind === 'consume') {
+    deptHTML = `<div class="deptrow">` +
+      (it.dept
+        ? `<button class="dept" data-copy-dept="${esc(it.dept.code)}" title="點一下複製發貨部門代號">發貨部門 <b>${esc(it.dept.code)}</b> ${esc(it.dept.name)}</button>`
+        : `<span class="dept none">發貨部門：未填</span>`) +
+      `<button class="editbtn" data-edit-dept="${esc(it.code)}">${icon('edit')}編輯</button></div>`;
+  }
   return `<article class="card">
-    <div class="tags"><span class="tag ${k.cls}">${k.label}</span>${it.local ? '<span class="tag local">只存在這台裝置</span>' : ''}${deptHTML}</div>
-    <div class="name">${q ? highlight(it.name, q) : esc(it.name)}</div>
-    ${it.alias ? `<div class="alias">別名：${esc(it.alias)}</div>` : ''}
-    <div class="coderow">
-      <div class="code"><small>物品碼</small>${esc(it.code)}</div>
-      <button class="favbtn ${favs.has(it.code) ? 'on' : ''}" data-fav="${esc(it.code)}" aria-label="加入常用">★</button>
-      <button class="copybtn" data-copy="${esc(it.code)}">📋 複製代碼</button>
+    <div class="card-top">
+      <div><span class="tag ${it.kind}">${label}</span>${it.local ? '<span class="tag local">只存在這台電腦</span>' : ''}</div>
+      ${favHTML(it.code, fav)}
     </div>
+    <div class="coderow">
+      <div class="code"><small>物品碼</small><b>${esc(it.code)}</b></div>
+      <button class="copybtn" data-copy="${esc(it.code)}">複製物品碼</button>
+    </div>
+    <div class="name">${q ? highlight(it.name, q) : esc(it.name)}</div>
+    ${deptHTML}
   </article>`;
 }
-
 function renderChips(){
-  const c = { all:ITEMS.length, consume:0, supply:0, drug:0 };
-  ITEMS.forEach(it => c[it.kind]++);
-  const list = [['all','全部'],['consume','消耗性物品'],['supply','採購耗材'],['drug','藥品']];
+  const list = [['all','全部'],['consume',SRC_CONSUME],['purchase',SRC_PURCHASE]];
   $('#chips').innerHTML = list.map(([k, l]) =>
-    `<button class="chip ${filter === k ? 'on' : ''}" data-filter="${k}">${l}<span class="n">${c[k]}</span></button>`).join('');
+    `<button class="chip ${filter === k ? 'on' : ''}" data-filter="${k}">${l}</button>`).join('');
 }
-
 const MAX = 60;
 function render(){
   const q = $('#q').value.trim();
   $('#clearBtn').classList.toggle('show', !!q);
   const res = search(q);
-  const box = $('#results');
   if (res === null) { renderHome(); return; }
   $('#status').textContent = res.length ? `找到 ${res.length} 項` : '';
   if (!res.length) {
-    box.innerHTML = `<div class="empty"><div class="big">🤔</div>
-      <p>找不到「${esc(q)}」</p><p style="font-size:.9rem">試試看少打幾個字，或換個說法。<br>找不到的物品可以按下方「＋ 新增物品」加進來。</p></div>`;
+    $('#results').innerHTML = `<div class="empty"><div class="big">${icon('search')}</div>
+      <p style="font-weight:700;color:var(--text)">找不到「${esc(q)}」</p>
+      <p style="font-size:.9rem">試試看少打幾個字，或換個說法。<br>找不到的物品，可以按下方「新增物品」加進來。</p></div>`;
     return;
   }
-  box.innerHTML = res.slice(0, MAX).map(it => cardHTML(it, q)).join('') +
+  $('#results').innerHTML = res.slice(0, MAX).map(it => cardHTML(it, q)).join('') +
     (res.length > MAX ? `<div class="more">還有 ${res.length - MAX} 項，請多打幾個字縮小範圍</div>` : '');
 }
-
 function renderHome(){
   const favs = store.get('favs', []), recent = store.get('recent', []);
   const byCode = new Map(ITEMS.map(it => [it.code, it]));
   const pass = it => it && (filter === 'all' || it.kind === filter);
   const favItems = favs.map(c => byCode.get(c)).filter(pass);
   const recItems = recent.map(c => byCode.get(c)).filter(it => pass(it) && !favs.includes(it.code)).slice(0, 8);
-  $('#status').textContent = ITEMS.length ? `共 ${ITEMS.length} 項物品` + (lastSource ? `　·　資料更新於 ${lastSource}` : '') : '資料載入中…';
+  $('#status').textContent = lastSource ? `資料更新於 ${lastSource}` : (ITEMS.length ? '' : '資料載入中…');
   let html = '';
-  if (favItems.length) html += '<div class="section-title">⭐ 常用物品</div>' + favItems.map(it => cardHTML(it, '')).join('');
-  if (recItems.length) html += '<div class="section-title">🕘 最近複製過</div>' + recItems.map(it => cardHTML(it, '')).join('');
-  if (!html) html = `<div class="empty"><div class="big">🔍</div>
-    <p style="font-size:1.1rem;font-weight:700;color:var(--text)">在上面輸入品名或代碼</p>
-    <p>也可以按 🎤 用說的。<br>按 ★ 可以把常用的物品留在這一頁。</p>
+  if (favItems.length) html += '<div class="section-title">常用物品</div>' + favItems.map(it => cardHTML(it, '')).join('');
+  if (recItems.length) html += '<div class="section-title">最近複製過</div>' + recItems.map(it => cardHTML(it, '')).join('');
+  if (!html) html = `<div class="empty"><div class="big">${icon('search')}</div>
+    <p style="font-size:1.05rem;font-weight:700;color:var(--text)">在上面輸入品名或代碼</p>
+    <p>也可以按右邊的麥克風用說的。<br>按「加入常用」可以把常用物品留在這一頁。</p>
     <div class="examples"><button data-ex="手套">手套</button><button data-ex="口罩">口罩</button><button data-ex="藥袋">藥袋</button><button data-ex="橡皮筋">橡皮筋</button></div></div>`;
   $('#results').innerHTML = html;
-}
-
-function renderInv(){
-  const list = ITEMS.filter(it => it.inv === '是');
-  if (!list.length) { $('#invList').innerHTML = '<div class="empty">還沒有設定要盤點的物品。<br>可以在 Google 試算表「要盤點」欄填「是」。</div>'; return; }
-  const groups = {};
-  list.forEach(it => (groups[it.invCat || '未分類'] ||= []).push(it));
-  $('#invList').innerHTML = Object.entries(groups).map(([g, arr]) =>
-    `<div class="section-title">${esc(g)}（${arr.length} 項）</div><div class="card">` +
-    arr.map(it => `<div class="inv-row"><span class="c">${esc(it.code)}</span><span class="n">${esc(it.alias.split(' ')[0] || '')}<br><small style="color:var(--sub)">${esc(it.name)}</small></span>
-      <button class="smallbtn" data-copy="${esc(it.code)}">📋 複製</button></div>`).join('') + '</div>').join('');
 }
 
 /* ---------- 複製 ---------- */
@@ -524,7 +498,7 @@ async function copyText(text){
 let toastTimer;
 function toast(main, sub, color){
   const t = $('#toast');
-  t.style.background = color || '#1f8a43';
+  t.style.background = color || '';
   t.innerHTML = esc(main) + (sub ? `<small>${esc(sub)}</small>` : '');
   t.classList.add('show');
   clearTimeout(toastTimer);
@@ -539,55 +513,56 @@ $('#clearBtn').addEventListener('click', () => { $('#q').value = ''; render(); $
 
 document.addEventListener('click', async e => {
   const b = e.target.closest('button');
-  if (!b) return;
+  if (!b || b.closest('dialog')) return;
   if (b.dataset.copy) {
     const ok = await copyText(b.dataset.copy);
     if (ok) {
-      toast('✅ 已複製代碼！', b.dataset.copy);
+      toast('已複製物品碼', b.dataset.copy);
       const r = store.get('recent', []).filter(c => c !== b.dataset.copy); r.unshift(b.dataset.copy); store.set('recent', r.slice(0, 20));
-    } else toast('⚠️ 複製失敗，請手動選取代碼', b.dataset.copy, '#c62828');
+    } else toast('複製失敗，請手動選取', b.dataset.copy, '#a83a32');
   } else if (b.dataset.copyDept) {
     const ok = await copyText(b.dataset.copyDept);
-    toast(ok ? '✅ 已複製發貨部門！' : '⚠️ 複製失敗', b.dataset.copyDept, ok ? '#b25e00' : '#c62828');
+    toast(ok ? '已複製發貨部門' : '複製失敗', b.dataset.copyDept, ok ? '#8a6a3a' : '#a83a32');
   } else if (b.dataset.fav) {
+    const code = b.dataset.fav;
     let f = store.get('favs', []);
-    if (f.includes(b.dataset.fav)) { f = f.filter(c => c !== b.dataset.fav); toast('已從常用移除', b.dataset.fav, '#555'); }
-    else { f.push(b.dataset.fav); toast('⭐ 已加入常用', b.dataset.fav, '#b88600'); }
+    const on = !f.includes(code);
+    f = on ? f.concat(code) : f.filter(c => c !== code);
     store.set('favs', f);
-    $$(`[data-fav="${CSS.escape(b.dataset.fav)}"]`).forEach(x => x.classList.toggle('on', f.includes(b.dataset.fav)));
+    toast(on ? '已加入常用' : '已從常用移除', code, on ? '#7a5b12' : '#5f6a64');
+    if (!$('#q').value.trim()) renderHome();       // 首頁：移除後馬上消失
+    else $$(`[data-fav="${CSS.escape(code)}"]`).forEach(x => x.outerHTML = favHTML(code, on));
+  } else if (b.dataset.editDept) {
+    openDeptEditor(b.dataset.editDept);
   } else if (b.dataset.filter) {
     filter = b.dataset.filter; renderChips(); render();
   } else if (b.dataset.ex) {
     $('#q').value = b.dataset.ex; render();
   } else if (b.dataset.page) {
+    if (b.dataset.page === 'inv') { dialog('尚未開放此功能', '<p>盤點功能還在準備中，開放後會通知大家。</p>'); return; }
     showPage(b.dataset.page);
   }
 });
-
 function showPage(p){
   $$('.page').forEach(x => x.classList.toggle('on', x.id === 'page-' + p));
   $$('nav.tabbar button').forEach(x => x.classList.toggle('on', x.dataset.page === p));
   $('#searchArea').style.display = p === 'search' ? '' : 'none';
-  if (p === 'add') prepAdd();
+  if (p === 'search') render();
   window.scrollTo(0, 0);
 }
 
-/* ---------- 字體大小 ---------- */
-const FS = ['', 'fs-l', 'fs-xl'], FSL = ['字體 大', '字體 特大', '字體 標準'];
-let fs = store.get('fs', 0);
-function applyFs(){ document.documentElement.className = FS[fs]; $('#fontBtn').textContent = FSL[fs]; }
-$('#fontBtn').addEventListener('click', () => { fs = (fs + 1) % 3; store.set('fs', fs); applyFs(); });
+/* ---------- 字體大小（標準 / 特大） ---------- */
+let fs = store.get('fs2', 0);
+function applyFs(){ document.documentElement.className = fs ? 'fs-xl' : ''; $('#fontBtn').textContent = fs ? '字體 標準' : '字體 特大'; }
+$('#fontBtn').addEventListener('click', () => { fs = fs ? 0 : 1; store.set('fs2', fs); applyFs(); });
 applyFs();
 
 /* ---------- 語音 ---------- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
 let rec = null;
+function stopUI(){ rec = null; $('#listen').classList.remove('show'); $('#micBtn').classList.remove('listening'); }
 $('#micBtn').addEventListener('click', () => {
-  if (!SR) {
-    dialog('🎤 這台裝置不支援網頁語音',
-      '<p>可以改用鍵盤上的麥克風：點一下搜尋框，再按鍵盤上的 🎤 按鈕說話。</p>');
-    return;
-  }
+  if (!SR) { dialog('這台裝置不支援語音搜尋', '<p>可以改用鍵盤上的麥克風：點一下搜尋框，再按鍵盤上的麥克風說話。</p>'); return; }
   if (rec) { rec.stop(); return; }
   rec = new SR();
   rec.lang = 'zh-TW'; rec.interimResults = true; rec.maxAlternatives = 1; rec.continuous = false;
@@ -602,60 +577,104 @@ $('#micBtn').addEventListener('click', () => {
   };
   rec.onerror = ev => {
     if (ev.error === 'not-allowed' || ev.error === 'service-not-allowed')
-      dialog('🎤 沒有麥克風權限', '<p>請在網址列左邊的圖示，把「麥克風」設成允許，再按一次 🎤。</p>');
-    else if (ev.error === 'network')
-      toast('⚠️ 語音需要連上網路', '', '#c62828');
+      dialog('沒有麥克風權限', '<p>請點網址列左邊的圖示，把「麥克風」設成允許，再按一次麥克風。</p>');
+    else if (ev.error === 'network') toast('語音需要連上網路', '', '#a83a32');
+    else if (ev.error === 'audio-capture') dialog('找不到麥克風', '<p>這台電腦可能沒有接麥克風，請直接打字搜尋。</p>');
   };
-  rec.onend = () => { rec = null; $('#listen').classList.remove('show'); $('#micBtn').classList.remove('listening'); };
-  try { rec.start(); } catch (e) { rec = null; $('#listen').classList.remove('show'); $('#micBtn').classList.remove('listening'); }
+  rec.onend = stopUI;
+  try { rec.start(); } catch (e) { stopUI(); }
 });
 $('#stopListen').addEventListener('click', () => { if (rec) rec.stop(); });
 
 /* ---------- 對話框 ---------- */
-function dialog(title, html, buttons){
+function dialog(title, html, buttons, onOpen){
   const d = $('#dlg');
-  d.innerHTML = `<h2>${title}</h2>${html}<div class="row">${(buttons || [['好', 'close']]).map(([l, a], i) =>
-    `<button class="bigbtn ${i ? 'gray' : ''}" data-act="${a}">${l}</button>`).join('')}</div>`;
-  d.querySelectorAll('[data-act]').forEach(b => b.onclick = () => { d.close(); if (typeof b.dataset.act === 'string' && dialog.handlers[b.dataset.act]) dialog.handlers[b.dataset.act](); });
+  d.innerHTML = `<h2>${title}</h2>${html}<div class="row">${(buttons || [['好', null]]).map(([l], i) =>
+    `<button class="bigbtn ${i === (buttons || []).length - 1 && i > 0 ? 'gray' : ''}" data-i="${i}">${l}</button>`).join('')}</div>`;
+  d.querySelectorAll('.row [data-i]').forEach(b => b.onclick = async () => {
+    const fn = (buttons || [['好', null]])[+b.dataset.i][1];
+    if (fn) { const keep = await fn(); if (keep === false) return; }
+    d.close();
+  });
   d.showModal();
+  if (onOpen) onOpen(d);
 }
-dialog.handlers = {};
 
 /* ---------- 設定 ---------- */
 $('#setBtn').addEventListener('click', () => {
-  dialog.handlers.reload = () => { loadData(); toast('🔄 已重新載入資料'); };
-  dialog.handlers.forget = () => { store.del('write_key'); toast('已清除新增密碼', '', '#555'); };
-  dialog('⚙️ 設定',
-    `<p>資料來源：${CONFIG.API_URL ? 'Google 試算表 ✅' : '內建資料（尚未連接 Google 試算表）'}</p>
-     <p>物品數量：${ITEMS.length} 項</p>
-     <p>上次更新：${esc(lastSource || '—')}</p>
-     <p>語音搜尋：${SR ? '可以使用 ✅' : '這台裝置不支援，請用鍵盤麥克風'}</p>
-     <p>同音字比對：${window.pinyinPro ? '已啟用 ✅' : '未載入'}</p>
-     <p style="font-size:.8rem">版本 ${VERSION}</p>`,
-    [['🔄 重新載入資料', 'reload'], ['清除新增密碼', 'forget'], ['關閉', 'close']]);
+  dialog('設定',
+    `<p>資料來源：HIS 請購系統匯出</p><p>上次更新：${esc(lastSource || '—')}</p>
+     <p style="font-size:.75rem;color:var(--muted)">版本 ${VERSION}</p>`,
+    [['重新載入資料', () => { loadData(); toast('已重新載入資料'); }], ['關閉', null]]);
 });
 
-/* ---------- 新增物品 ---------- */
-let fSource = '消耗性物品';
-function prepAdd(){
-  $('#keyField').style.display = CONFIG.API_URL && !store.get('write_key', '') ? '' : 'none';
-  // 常見的發貨部門快速按鈕
-  const cnt = {};
-  ITEMS.forEach(it => it.depts.forEach(d => { const k = d.code + ' ' + d.name; cnt[k] = (cnt[k] || 0) + 1; }));
-  $('#deptQuick').innerHTML = Object.entries(cnt).sort((a, b) => b[1] - a[1]).slice(0, 4)
-    .map(([k]) => `<button type="button" data-dq="${esc(k)}">${esc(k)}</button>`).join('');
+/* ---------- 寫回試算表 ---------- */
+async function post(body){
+  const res = await fetch(CONFIG.API_URL, { method:'POST', body:JSON.stringify(body) });
+  return res.json();
 }
+function patchCache(code, field, value){
+  const c = store.get('items_cache', null);
+  if (c && c.items) { const r = c.items.find(x => String(x['物品碼']).trim() === code); if (r) { r[field] = value; store.set('items_cache', c); } }
+  const local = store.get('local_items', []);
+  const l = local.find(x => x['物品碼'] === code); if (l) { l[field] = value; store.set('local_items', local); }
+}
+
+/* ---------- 編輯發貨部門 ---------- */
+function openDeptEditor(code){
+  const it = ITEMS.find(x => x.code === code); if (!it) return;
+  const cur = it.dept ? it.dept.code + (it.dept.name ? ' ' + it.dept.name : '') : '';
+  let chosen = cur;
+  const quick = ['8322 醫材庫', '8326 重物倉'];
+  dialog('編輯發貨部門',
+    `<p style="font-family:Consolas,monospace;font-weight:800;color:var(--text);font-size:1.1rem">${esc(code)}</p>
+     <p style="font-size:.9rem">${esc(it.name)}</p>
+     <div class="seg" id="dq">${quick.map(q => `<button type="button" data-v="${q}" class="${q === cur ? 'on' : ''}">${q}</button>`).join('')}</div>
+     <div class="field"><label for="dOther" style="font-size:.85rem">其他代號</label><input id="dOther" autocomplete="off" value="${quick.includes(cur) ? '' : esc(cur)}"></div>
+     <div class="msg" id="dMsg"></div>`,
+    [['儲存', async () => {
+      const other = $('#dOther').value.trim();
+      let dept = other || chosen;
+      if (!dept) { const m = $('#dMsg'); m.textContent = '請選擇或輸入發貨部門'; m.className = 'msg show err'; return false; }
+      if (/^\d+$/.test(dept)) {                       // 只打代號 → 自動補上名稱
+        const known = ITEMS.map(x => x.dept).find(d => d && d.code === dept && d.name);
+        if (known) dept = known.code + ' ' + known.name;
+      }
+      if (CONFIG.API_URL) {
+        try {
+          const r = await post({ action:'updateDept', code, dept });
+          if (!r.ok) { const m = $('#dMsg'); m.textContent = r.error || '儲存失敗'; m.className = 'msg show err'; return false; }
+        } catch (e) { const m = $('#dMsg'); m.textContent = '連不上 Google 試算表，請確認網路後再試一次'; m.className = 'msg show err'; return false; }
+      }
+      patchCache(code, '發貨部門', dept);
+      it.dept = parseDept(dept);
+      render();
+      toast('已更新發貨部門', code + '　' + dept);
+    }], ['取消', null]],
+    d => {
+      d.querySelector('#dq').onclick = e => {
+        const b = e.target.closest('button'); if (!b) return;
+        chosen = b.dataset.v; d.querySelector('#dOther').value = '';
+        d.querySelectorAll('#dq button').forEach(x => x.classList.toggle('on', x === b));
+      };
+      d.querySelector('#dOther').oninput = () => d.querySelectorAll('#dq button').forEach(x => x.classList.remove('on'));
+    });
+}
+
+/* ---------- 新增物品 ---------- */
+let fSource = SRC_CONSUME;
 $('#fSource').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
   fSource = b.dataset.v;
   $$('#fSource button').forEach(x => x.classList.toggle('on', x === b));
-  $('#deptField').style.display = fSource === '消耗性物品' ? '' : 'none';
+  $('#deptField').style.display = fSource === SRC_CONSUME ? '' : 'none';
 });
-$('#deptQuick').addEventListener('click', e => {
+$('#deptField .deptQuick').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  $('#fDept').value = b.dataset.dq;
-  $$('#deptQuick button').forEach(x => x.classList.toggle('on', x === b));
+  $('#fDept').value = '';
+  $$('#deptField .deptQuick button').forEach(x => x.classList.toggle('on', x === b));
 });
+$('#fDept').addEventListener('input', () => $$('#deptField .deptQuick button').forEach(x => x.classList.remove('on')));
 function addMsg(text, ok){ const m = $('#addMsg'); m.textContent = text; m.className = 'msg show ' + (ok ? 'ok' : 'err'); window.scrollTo(0, 0); }
 
 $('#saveBtn').addEventListener('click', async () => {
@@ -665,45 +684,41 @@ $('#saveBtn').addEventListener('click', async () => {
   const exist = ITEMS.find(it => it.code === code);
   if (exist && !confirm(`物品碼 ${code} 已經有了：\n${exist.name}\n\n要用新的資料更新它嗎？`)) return;
 
-  let dept = fSource === '消耗性物品' ? $('#fDept').value.trim() : '';
-  if (dept && !/\s/.test(dept)) {
-    const known = ITEMS.flatMap(it => it.depts).find(d => d.code === dept);
-    if (known) dept = known.code + ' ' + known.name;
+  let dept = '';
+  if (fSource === SRC_CONSUME) {
+    const q = $('#deptField .deptQuick button.on');
+    dept = $('#fDept').value.trim() || (q ? q.dataset.dq : '');
+    if (/^\d+$/.test(dept)) {
+      const known = ITEMS.map(x => x.dept).find(d => d && d.code === dept && d.name);
+      if (known) dept = known.code + ' ' + known.name;
+    }
   }
-  const item = { '物品碼':code, '品名':name, '來源':fSource, '發貨部門':dept, '別名':$('#fAlias').value.trim() };
+  const item = { '物品碼':code, '品名':name, '來源':fSource, '發貨部門':dept };
 
   if (!CONFIG.API_URL) {
     const local = store.get('local_items', []).filter(r => r['物品碼'] !== code);
     local.push(item); store.set('local_items', local);
-    finishAdd(code, '已儲存在這台裝置（尚未連接 Google 試算表）');
-    setData(store.get('items_cache', { items:[] }).items);
+    finishAdd(code, '已儲存在這台電腦');
+    setData(cacheRows());
     return;
   }
-  const key = store.get('write_key', '') || $('#fKey').value.trim();
-  if (!key) { $('#keyField').style.display = ''; addMsg('請輸入新增密碼'); $('#fKey').focus(); return; }
   $('#saveBtn').disabled = true; $('#saveBtn').textContent = '儲存中…';
   try {
-    const res = await fetch(CONFIG.API_URL, { method:'POST', body:JSON.stringify({ action:'addItem', key, item }) });
-    const data = await res.json();
-    if (!data.ok) {
-      if (data.error === '密碼錯誤') { store.del('write_key'); $('#keyField').style.display = ''; $('#fKey').value = ''; }
-      addMsg('❌ ' + (data.error || '儲存失敗')); return;
-    }
-    store.set('write_key', key);
+    const data = await post({ action:'addItem', item });
+    if (!data.ok) { addMsg(data.error || '儲存失敗'); return; }
     finishAdd(code, data.updated ? '已更新到 Google 試算表' : '已新增到 Google 試算表');
     loadData();
   } catch (e) {
-    addMsg('❌ 連不上 Google 試算表，請確認網路後再試一次');
+    addMsg('連不上 Google 試算表，請確認網路後再試一次');
   } finally {
-    $('#saveBtn').disabled = false; $('#saveBtn').textContent = '💾 儲存';
+    $('#saveBtn').disabled = false; $('#saveBtn').textContent = '儲存';
   }
 });
 function finishAdd(code, text){
-  ['#fCode', '#fName', '#fDept', '#fAlias', '#fKey'].forEach(s => $(s).value = '');
-  $$('#deptQuick button').forEach(x => x.classList.remove('on'));
-  $('#keyField').style.display = 'none';
-  toast('✅ ' + text, code);
-  addMsg('✅ ' + text + '：' + code, true);
+  ['#fCode', '#fName', '#fDept'].forEach(s => $(s).value = '');
+  $$('#deptField .deptQuick button').forEach(x => x.classList.remove('on'));
+  toast(text, code);
+  addMsg(text + '：' + code, true);
 }
 
 /* ---------- 啟動 ---------- */

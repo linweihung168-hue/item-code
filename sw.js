@@ -1,6 +1,6 @@
 // 物品碼查詢 — 離線快取（改版時把版本號 +1）
-const CACHE = 'item-code-v1';
-const SHELL = ['./', 'index.html', 'manifest.json', 'items.json', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'item-code-v2';
+const SHELL = ['./', 'index.html', 'config.js', 'manifest.json', 'items.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

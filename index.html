@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>物品碼查詢</title>
-<meta name="theme-color" content="#f4f5f1">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="物品碼">
 <link rel="manifest" href="manifest.json">
@@ -15,14 +15,14 @@
    物品碼查詢 v2.0
    ========================================================= */
 :root{
-  --bg:#f4f5f1; --card:#ffffff; --text:#1f2723; --sub:#5f6a64; --muted:#8a948e; --line:#e3e5df; --line2:#dadcd5;
-  --sage:#4e7a66; --sage-dark:#3f6655; --sage-soft:#e4eee8; --sage-text:#2f5a47; --sage-line:#c9d7cf;
-  --sand:#f4ede1; --sand-line:#e5d6bd; --sand-text:#6b4e24;
-  --gray-soft:#ecece7; --gray-text:#4a4d47;
+  --bg:#ffffff; --card:#ffffff; --text:#1f2723; --sub:#5f6a64; --muted:#8a948e; --line:#e3e6e1; --line2:#dcdfda;
+  --sage:#3d7f63; --sage-dark:#326a52; --sage-soft:#e3f1e9; --sage-text:#2c6148; --sage-line:#c3dccf;
+  --sand:#f7f1e6; --sand-line:#e5d6bd; --sand-text:#6b4e24;
+  --gray-soft:#f0f0ec; --gray-text:#4a4d47;
   --gold-soft:#f7efd9; --gold-line:#e8d59e; --gold-text:#7a5b12;
   --red:#a83a32; --red-soft:#f8e6e3;
   --radius:18px;
-  --shadow:0 1px 2px rgba(31,39,35,.05),0 3px 10px rgba(31,39,35,.04);
+  --shadow:0 1px 3px rgba(31,39,35,.04);
 }
 html{font-size:20px;-webkit-text-size-adjust:100%}
 html.fs-xl{font-size:23px}
@@ -32,12 +32,12 @@ body{margin:0;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC","Heiti TC",sans-serif;
   line-height:1.5;padding-bottom:calc(100px + env(safe-area-inset-bottom))}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-button:focus-visible,input:focus-visible{outline:3px solid #9cc2b0;outline-offset:2px}
+button:focus-visible,input:focus-visible{outline:3px solid #9fcab5;outline-offset:2px}
 svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.13em;flex-shrink:0}
 .wrap{max-width:860px;margin:0 auto;padding:0 16px}
 
 /* ---------- 頂部 ---------- */
-header{position:sticky;top:0;z-index:20;background:rgba(244,245,241,.95);
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);
   backdrop-filter:saturate(160%) blur(12px);-webkit-backdrop-filter:saturate(160%) blur(12px);
   padding-top:env(safe-area-inset-top)}
 .topbar{display:flex;align-items:center;gap:10px;padding:14px 0 10px}
@@ -49,9 +49,9 @@ header{position:sticky;top:0;z-index:20;background:rgba(244,245,241,.95);
 
 /* ---------- 搜尋 ---------- */
 .searchrow{display:flex;gap:10px;padding-bottom:12px}
-.searchbox{flex:1;min-width:0;display:flex;align-items:center;background:var(--card);
+.searchbox{flex:1;min-width:0;display:flex;align-items:center;background:#f7f8f6;
   border-radius:var(--radius);border:2px solid var(--line2);min-height:68px}
-.searchbox:focus-within{border-color:var(--sage)}
+.searchbox:focus-within{border-color:var(--sage);background:#fff}
 .searchbox .si{font-size:1.25rem;margin-left:18px;color:var(--muted)}
 #q{flex:1;border:0;outline:0;background:none;font:inherit;font-size:1.25rem;padding:14px 12px;min-width:0;color:var(--text)}
 #q::placeholder{color:#a1a9a4}
@@ -66,7 +66,7 @@ header{position:sticky;top:0;z-index:20;background:rgba(244,245,241,.95);
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex-shrink:0;padding:.4rem 1.05rem;border-radius:999px;background:var(--card);font-size:.85rem;font-weight:700;color:var(--sub);border:1px solid var(--line2)}
-.chip.on{background:var(--text);color:#fff;border-color:var(--text)}
+.chip.on{background:var(--sage-text);color:#fff;border-color:var(--sage-text)}
 
 /* ---------- 內容 ---------- */
 main{padding-top:2px}
@@ -287,7 +287,7 @@ dialog .field{margin:0}
 
 <script>
 const CONFIG = Object.assign({ API_URL: '' }, window.APP_CONFIG || {});
-const VERSION = 'v3.1';
+const VERSION = 'v3.2';
 const SRC_CONSUME = '消耗性材料耗用', SRC_PURCHASE = '採購請購';
 
 /* ---------- 小工具 ---------- */
